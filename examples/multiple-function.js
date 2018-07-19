@@ -1,21 +1,9 @@
-# Exclusion Mutuelle
------
-Exclusion Mutuelle is a French language of `Mutual Exclusion`. This is an implementation of mutex using `redlock` and `redis`.
-
-
-## Installation
-```
-npm install exclusion-mutuelle --save
-```
-
-
-## Configuration
-```js
 const mutex = require('exclusive-mutuelle');
+const Bluebird = require('bluebird');
+const { LockError } = require('exclusive-mutuelle/errors');
 
 const redisClients = [
-  require('redis').createClient(6379, 'redis1.example.com'),
-  require('redis').createClient(6379, 'redis2.example.com')
+  require('redis').createClient(6379, 'redis1.example.com')
 ];
 
 const mutexConfig = {
@@ -32,15 +20,9 @@ const mutexConfig = {
 };
 
 // mutexClient SHOULD be initiated as a singleton
-const mutexClient = mutex.initialize(mutexConfig);
-```
+const mutexClient = mutex.create(mutexConfig);
 
-## Quick Usage
-```js
-...
-const mutexClient = mutex.initialize(mutexConfig);
-
-// Function to print a message after x ms
+// Function to print after x ms
 const printAfter = async (message, delay) => {
   await Bluebird.delay(delay);
 
@@ -66,9 +48,8 @@ const deferred2 = mutexClient.run(
   .catch(LockError, () => console.log('Throw an error with type LockError'))
   .catch(error => console.log('this error should not be printed'));
 
+
 Bluebird
   .all([deferred1, deferred2])
   .then(() => console.log('success'))
   .catch(console.error)
-
-```
