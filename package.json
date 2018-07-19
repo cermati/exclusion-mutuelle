@@ -1,0 +1,38 @@
+{
+  "name": "exclusion-mutuelle",
+  "version": "1.0.0",
+  "description": "Node.js A mutex implementation using redis and redlock",
+  "main": "index.js",
+  "scripts": {
+    "test": "./node_modules/.bin/mocha tests/ --recursive --exit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cermati/exclusion-mutuelle.git"
+  },
+  "keywords": [
+    "nodejs",
+    "redlock",
+    "mutex"
+  ],
+  "author": "Sendy Halim <sendy@cermati.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cermati/exclusion-mutuelle/issues"
+  },
+  "homepage": "https://github.com/cermati/exclusion-mutuelle#readme",
+  "dependencies": {
+    "bluebird": "~3.5.1",
+    "debug": "~3.1.0",
+    "lodash": "~4.17.10",
+    "redlock": "~3.1.2"
+  },
+  "devDependencies": {
+    "chai": "~4.1.2",
+    "chai-as-promised": "~7.1.1",
+    "mocha": "~5.2.0",
+    "proxyquire": "~2.0.1",
+    "sinon": "~6.1.3",
+    "sinon-chai": "~3.2.0"
+  }
+}
