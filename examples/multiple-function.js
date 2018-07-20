@@ -20,7 +20,7 @@ const mutexConfig = {
 };
 
 // mutexClient SHOULD be initiated as a singleton
-const mutexClient = mutex.create(mutexConfig);
+const mutexClient = mutex.initialize(mutexConfig);
 
 // Function to print after x ms
 const printAfter = async (message, delay) => {

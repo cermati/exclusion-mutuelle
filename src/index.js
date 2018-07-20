@@ -16,7 +16,7 @@ const { ExtendLockError, LockError, UnlockError } = require('./errors');
  * @param {Number} config.maxExtendLockCount - The maximum limit that lock can be extended
  * @returns {Object}
  */
-exports.create = ({
+exports.initialize = ({
   redisClients,
   debugKey = 'exclusion-mutuelle',
   minimumTtl = 100, // in ms

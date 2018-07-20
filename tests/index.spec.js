@@ -26,7 +26,7 @@ describe('run()', () => {
       '../src/index',
       { 'redlock': RedLockStub }
     )
-    .create({ redisClients: [] });
+    .initialize({ redisClients: [] });
 
   context('when no error occurs', () => {
     const dummyFunction = sinon.stub();
