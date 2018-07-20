@@ -1,7 +1,7 @@
 const Redlock = require('redlock');
 
-const ExtendLockError = require('./extend-lock');
-const UnlockError = require('./unlock');
+const ExtendLockError = require('./extend-lock-error');
+const UnlockError = require('./unlock-error');
 const LockError = Redlock.LockError;
 
 /**
