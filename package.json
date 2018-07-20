@@ -4,6 +4,8 @@
   "description": "Node.js A mutex implementation using redis and redlock",
   "main": "index.js",
   "scripts": {
+    "prepublish": "cp -r src/* ./",
+    "postpublish": "ls src/ | xargs rm -rf",
     "test": "./node_modules/.bin/mocha tests/ --recursive --exit"
   },
   "repository": {
