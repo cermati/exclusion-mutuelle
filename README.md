@@ -1,6 +1,6 @@
 # Exclusion Mutuelle
 -----
-Exclusion Mutuelle is a French language of `Mutual Exclusion`. This is an implementation of mutex using `redlock` and `redis`.
+Exclusion Mutuelle is a French language of `Mutual Exclusion`. This is an implementation of [mutex](https://en.wikipedia.org/wiki/Mutual_exclusion) using `redlock` and `redis`.
 
 
 ## Installation
