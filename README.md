@@ -2,6 +2,9 @@
 -----
 Exclusion Mutuelle is a French language of `Mutual Exclusion`. This is an implementation of [mutex](https://en.wikipedia.org/wiki/Mutual_exclusion) using `redlock` and `redis`.
 
+[![Build Status](https://travis-ci.org/cermati/exclusion-mutuelle.svg?branch=master)](https://travis-ci.org/cermati/exclusion-mutuelle.svg?branch=master)
+[![npm version](https://badge.fury.io/js/exclusion-mutuelle.svg)](https://badge.fury.io/js/exclusion-mutuelle)
+
 
 ## Installation
 ```
