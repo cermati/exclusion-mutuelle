@@ -49,7 +49,7 @@ exports.initialize = ({
 
       const lockKeys = (_.isArray(lockKey)) ? lockKey : [lockKey];
 
-      if (_.isEmpty(lockKeys) || _.some(lockKeys, _.isObject)) {
+      if (!_.every(lockKeys, _.isString)) {
         return Bluebird.reject(new Error('Lock key must be a string or an array of string'));
       }
 
