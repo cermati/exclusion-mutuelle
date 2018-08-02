@@ -54,12 +54,12 @@ describe('run()', () => {
     });
 
     context('and the lock key is an empty array', () => {
-      it('should reject with an error', () => {
+      it('should reject with an error', async () => {
         const deferred = rewiredMutexModule.run(dummyFunction, {
           lockKey: []
         });
 
-        expect(deferred).to.be.rejected;
+        await expect(deferred).to.be.rejected;
         expect(dummyFunction).not.to.be.called;
       });
     });
