@@ -35,7 +35,7 @@ exports.initialize = ({
      * @author Sendy Halim <sendy@cermati.com>
      * @param {Function} f - Function to be run.
      * @param {Object} config
-     * @param {String} config.lockKey
+     * @param {String|String[]} config.lockKey
      * @param {String} [config.lockTtl] - Lock TTL in ms, defaults to 1000ms.
      * @returns {Promise<Void>}
      */
@@ -47,9 +47,15 @@ exports.initialize = ({
         return Bluebird.reject(new Error(`TTL must be more than ${minimumTtl} ms!`));
       }
 
-      return Bluebird.resolve()
-        .then(() => redlock.lock(lockKey, lockTtl))
-        .then((lock) => {
+      const lockKeys = (_.isArray(lockKey)) ? lockKey : [lockKey];
+
+      if (_.isEmpty(lockKeys) || !_.every(lockKeys, _.isString)) {
+        return Bluebird.reject(new Error('Lock key must be a string or an array of string'));
+      }
+
+      return Bluebird
+        .map(lockKeys, key => redlock.lock(key, lockTtl))
+        .then((locks) => {
           // Call the original function as it is
           const deferred = Bluebird.resolve(f());
 
@@ -78,8 +84,8 @@ exports.initialize = ({
               intervalTime
             );
 
-            return lock
-              .extend(lockTtl)
+            return Bluebird
+              .map(locks, lock => lock.extend(lockTtl))
               .then(() => {
                 debug('[Mutex %s] Done extending lock TTL for %s ms', lockKey, lockTtl);
               })
@@ -99,8 +105,8 @@ exports.initialize = ({
 
             clearInterval(interval);
 
-            return lock
-              .unlock()
+            return Bluebird
+              .map(locks, lock => lock.unlock())
               .then(() => {
                 debug(`[Mutex %s] Done unlocking resource with TTL %s ms`, lockKey, lockTtl);
               })

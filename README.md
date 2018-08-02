@@ -39,6 +39,7 @@ const mutexClient = mutex.initialize(mutexConfig);
 ```
 
 ## Quick Usage
+### Running a function exclusively
 ```js
 ...
 const mutexClient = mutex.initialize(mutexConfig);
@@ -68,6 +69,42 @@ const deferred2 = mutexClient.run(
   )
   .catch(LockError, () => console.log('Throw an error with type LockError'))
   .catch(error => console.log('this error should not be printed'));
+
+Bluebird
+  .all([deferred1, deferred2])
+  .then(() => console.log('success'))
+  .catch(console.error)
+
+```
+
+### Using multiple lock keys
+You can set multiple lock key by passing an array of string to `lockKey` parameter.
+```js
+...
+const mutexClient = mutex.initialize(mutexConfig);
+
+// Function to print a message after x ms
+const printAfter = async (message, delay) => {
+  await Bluebird.delay(delay);
+
+  console.log(message);
+};
+
+const exclusiveFunc1 = () => printAfter('Function 1', 1000);
+const exclusiveFunc2 = () => printAfter('Function 2', 300);
+
+// The function with multiple lock key (`lock-key1`, `lock-key2`)
+// Another function who use these lock keys will not be able to run until this function finished
+const deferred1 = mutexClient.run(exclusiveFunc1, {
+  lockKey: ['lock-key1', 'lock-key2'],
+  lockTtl: 15000
+});
+
+// This function will throw `LockError`, because `lock-key1` is still locked by `deferred1`
+const deferred2 = mutexClient.run(
+    exclusiveFunc2,
+    { lockKey: 'lock-key1', lockTtl: 1000 }
+  );
 
 Bluebird
   .all([deferred1, deferred2])
